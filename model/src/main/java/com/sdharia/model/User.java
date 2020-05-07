@@ -7,6 +7,13 @@ public class User {
     private String location;
     private int contributions;
 
+    public User(String login, String name, String location, int contributions) {
+        this.login = login;
+        this.name = name;
+        this.location = location;
+        this.contributions = contributions;
+    }
+
     public String getLogin() {
         return login;
     }
