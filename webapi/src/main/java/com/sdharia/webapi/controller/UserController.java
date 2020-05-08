@@ -1,21 +1,27 @@
-package com.sdharia.controller;
+package com.sdharia.webapi.controller;
 
+import com.sdharia.exception.ApiRequestException;
 import com.sdharia.model.GitResponse;
-import com.sdharia.model.User;
+import com.sdharia.model.UserList;
 import com.sdharia.service.GithubService;
 import com.sdharia.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
+import reactor.core.publisher.Flux;
 
-import java.util.Collections;
+import javax.validation.ConstraintViolationException;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/gitcontrib")
+@Validated
 public class UserController {
 
     @Autowired
@@ -27,17 +33,10 @@ public class UserController {
     private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 
     @GetMapping("/users")
-    public List<User> getUsers(@RequestParam String location, @RequestParam(defaultValue = "100") String toplimit){
-        GitResponse response= githubService.getGitResponse(location);
-        logger.info("Total count = "+response.getData().getSearch().getUserCount());
-        //return userService.getUsers();
-        return Collections.emptyList();
+    public UserList getUsers(@RequestParam String location, @RequestParam(defaultValue = "50") @Min(1) @Max(150) int toplimit){
+        Flux<GitResponse> response= githubService.getGitResponse(location, toplimit);
+        List<GitResponse> gitResponseList = response.collectList().block();
+        return userService.getUsers(gitResponseList);
     }
 
-    @ExceptionHandler(WebClientResponseException.class)
-    public ResponseEntity<String> userControllerException(WebClientResponseException ex) {
-        logger.error("Error from UserController - Status {}, Body {}", ex.getRawStatusCode(),
-                ex.getResponseBodyAsString(), ex);
-        return ResponseEntity.status(ex.getRawStatusCode()).body(ex.getResponseBodyAsString());
-    }
 }
