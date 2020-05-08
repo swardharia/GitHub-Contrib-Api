@@ -1,0 +1,22 @@
+{
+  search(query: "location:Mumbai sort:repositories-desc", first: 100 type: USER) {
+      pageInfo {
+          startCursor
+          hasNextPage
+          endCursor
+      }
+      userCount
+      edges {
+          node {
+              ... on User {
+                  login
+                  name
+                  location
+                  repositories {
+                      totalCount
+                  }
+              }
+          }
+      }
+  }
+}

@@ -1,5 +1,10 @@
 package com.sdharia.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+import java.util.List;
+
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class GitResponse {
     private Data data;
 
@@ -11,7 +16,7 @@ public class GitResponse {
         this.data = data;
     }
 
-    public class Data{
+    public static class Data{
         private Search search;
 
         public Search getSearch() {
@@ -22,10 +27,10 @@ public class GitResponse {
             this.search = search;
         }
 
-        public class Search{
+        public static class Search{
             private PageInfo pageInfo;
             private int userCount;
-            private Edges[] edges;
+            private List<Edges> edges;
 
             public PageInfo getPageInfo() {
                 return pageInfo;
@@ -43,15 +48,15 @@ public class GitResponse {
                 this.userCount = userCount;
             }
 
-            public Edges[] getEdges() {
+            public List<Edges> getEdges() {
                 return edges;
             }
 
-            public void setEdges(Edges[] edges) {
+            public void setEdges(List<Edges> edges) {
                 this.edges = edges;
             }
 
-            public class PageInfo{
+            public static class PageInfo{
                 private String startCursor;
                 private boolean hasNextPage;
                 private String endCursor;
@@ -81,7 +86,7 @@ public class GitResponse {
                 }
             }
 
-            public class Edges{
+            public static class Edges{
                 private Nodes node;
 
                 public Nodes getNode() {
@@ -92,7 +97,7 @@ public class GitResponse {
                     this.node = node;
                 }
 
-                public class Nodes{
+                public static class Nodes{
                     private String login;
                     private String name;
                     private String location;
@@ -130,7 +135,7 @@ public class GitResponse {
                         this.repositories = repositories;
                     }
 
-                    public class Repositories{
+                    public static class Repositories{
                         private int totalCount;
 
                         public int getTotalCount() {

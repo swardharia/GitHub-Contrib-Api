@@ -14,6 +14,10 @@ public class User {
         this.contributions = contributions;
     }
 
+    public User() {
+
+    }
+
     public String getLogin() {
         return login;
     }
