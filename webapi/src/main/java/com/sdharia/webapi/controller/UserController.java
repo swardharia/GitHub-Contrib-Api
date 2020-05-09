@@ -1,6 +1,5 @@
 package com.sdharia.webapi.controller;
 
-import com.sdharia.exception.ApiRequestException;
 import com.sdharia.model.GitResponse;
 import com.sdharia.model.UserList;
 import com.sdharia.service.GithubService;
@@ -8,13 +7,10 @@ import com.sdharia.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.reactive.function.client.WebClientResponseException;
 import reactor.core.publisher.Flux;
 
-import javax.validation.ConstraintViolationException;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import java.util.List;
